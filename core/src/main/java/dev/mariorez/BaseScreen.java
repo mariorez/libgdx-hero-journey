@@ -4,7 +4,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import static dev.mariorez.Sizes.WINDOW;
+import static dev.mariorez.GameBoot.WINDOW_HEIGHT;
+import static dev.mariorez.GameBoot.WINDOW_WIDTH;
 
 public abstract class BaseScreen implements Screen {
 
@@ -13,7 +14,7 @@ public abstract class BaseScreen implements Screen {
 
     public BaseScreen() {
         this.batch = new SpriteBatch();
-        this.camera = new OrthographicCamera(WINDOW.width(), WINDOW.height());
+        this.camera = new OrthographicCamera(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.camera.setToOrtho(false);
     }
 

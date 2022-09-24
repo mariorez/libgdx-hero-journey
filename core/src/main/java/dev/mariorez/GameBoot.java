@@ -1,6 +1,5 @@
 package dev.mariorez;
 
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
@@ -9,6 +8,8 @@ import dev.mariorez.screen.FirstScreen;
 
 public class GameBoot extends Game {
 
+    public static final int WINDOW_WIDTH = 960;
+    public static final int WINDOW_HEIGHT = 540;
     private AssetManager assets = new AssetManager();
 
     @Override
