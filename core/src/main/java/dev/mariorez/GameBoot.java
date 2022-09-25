@@ -10,8 +10,8 @@ import dev.mariorez.screen.FirstScreen;
 
 public class GameBoot extends Game {
 
-    public static final int WINDOW_WIDTH = 960;
-    public static final int WINDOW_HEIGHT = 540;
+    public static final float WINDOW_WIDTH = 960f;
+    public static final float WINDOW_HEIGHT = 540f;
     private final AssetManager assets = new AssetManager();
 
     @Override

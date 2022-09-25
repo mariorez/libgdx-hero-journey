@@ -9,8 +9,8 @@ import static dev.mariorez.GameBoot.WINDOW_WIDTH;
 
 public abstract class BaseScreen implements Screen {
 
-    protected SpriteBatch batch;
-    protected OrthographicCamera camera;
+    protected final SpriteBatch batch;
+    protected final OrthographicCamera camera;
 
     public BaseScreen() {
         this.batch = new SpriteBatch();

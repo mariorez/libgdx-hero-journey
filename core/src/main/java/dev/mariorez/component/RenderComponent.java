@@ -2,16 +2,14 @@ package dev.mariorez.component;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class RenderComponent implements Component {
+public class RenderComponent implements Component, Poolable {
 
-    public Sprite sprite;
+    public Sprite sprite = new Sprite();
 
-    public RenderComponent() {
+    @Override
+    public void reset() {
         sprite = new Sprite();
-    }
-
-    public RenderComponent(Sprite sprite) {
-        this.sprite = sprite;
     }
 }

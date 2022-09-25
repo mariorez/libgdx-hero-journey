@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class TransformComponent implements Component, Poolable, Comparable<TransformComponent> {
 
-    public Vector2 position;
+    public Vector2 position = new Vector2();
     public float zIndex = 0f;
     public Vector2 velocity = new Vector2();
     public Vector2 accelerator = new Vector2();
@@ -14,14 +14,6 @@ public class TransformComponent implements Component, Poolable, Comparable<Trans
     public float deceleration = 0f;
     public float maxSpeed = 0f;
     public float rotation = 0f;
-
-    public TransformComponent() {
-        position = new Vector2();
-    }
-
-    public TransformComponent(float x, float y) {
-        position = new Vector2(x, y);
-    }
 
     @Override
     public void reset() {
