@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="131">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="131">
  <tileset firstgid="1" name="adventure-tiles" tilewidth="32" tileheight="32" tilecount="40" columns="10">
   <image source="adventure-tiles.png" width="320" height="128"/>
  </tileset>
@@ -7,48 +7,48 @@
   <image source="object-tiles.png" width="256" height="32"/>
   <tile id="0">
    <properties>
-    <property name="name" value="Bush"/>
+    <property name="name" value="bush"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
-    <property name="name" value="Rock"/>
+    <property name="name" value="rock"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
-    <property name="name" value="Coin"/>
+    <property name="name" value="coin"/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
-    <property name="name" value="Treasure"/>
+    <property name="name" value="treasure"/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
-    <property name="name" value="Flyer"/>
+    <property name="name" value="flyer"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
     <property name="id" value="default"/>
-    <property name="name" value="NPC"/>
+    <property name="name" value="npc"/>
     <property name="text" value="Hello, world!"/>
    </properties>
   </tile>
   <tile id="6">
    <properties>
-    <property name="name" value="ShopHeart"/>
+    <property name="name" value="shopheart"/>
    </properties>
   </tile>
   <tile id="7">
    <properties>
-    <property name="name" value="ShopArrow"/>
+    <property name="name" value="shoparrow"/>
    </properties>
   </tile>
  </tileset>
- <layer id="1" name="Tile Layer 1" width="40" height="40">
+ <layer id="1" name="tiles" width="40" height="40">
   <data encoding="csv">
 26,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,26,
 26,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,26,
@@ -92,7 +92,7 @@
 36,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,38
 </data>
  </layer>
- <objectgroup id="2" name="Object Layer 1">
+ <objectgroup id="2" name="objects">
   <object id="1" x="0" y="0" width="1280" height="32">
    <properties>
     <property name="name" value="Solid"/>
@@ -113,11 +113,7 @@
     <property name="name" value="Solid"/>
    </properties>
   </object>
-  <object id="6" x="640" y="1088" width="32" height="32">
-   <properties>
-    <property name="name" value="start"/>
-   </properties>
-  </object>
+  <object id="6" name="start" x="640" y="1088" width="32" height="32"/>
   <object id="23" gid="46" x="464" y="928" width="32" height="32">
    <properties>
     <property name="id" value="Gatekeeper"/>

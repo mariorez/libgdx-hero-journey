@@ -2,7 +2,7 @@ package dev.mariorez.system;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,15 +10,17 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import dev.mariorez.component.RenderComponent;
 import dev.mariorez.component.TransformComponent;
+import dev.mariorez.util.Mappers;
+import dev.mariorez.util.TransformComparator;
 
-public class RenderSystem extends IteratingSystem {
+public class RenderSystem extends SortedIteratingSystem {
 
     private final Batch batch;
     private final OrthographicCamera camera;
     private final OrthoCachedTiledMapRenderer mapRenderer;
 
     public RenderSystem(Batch batch, OrthographicCamera camera, OrthoCachedTiledMapRenderer mapRenderer) {
-        super(Family.all(RenderComponent.class, TransformComponent.class).get());
+        super(Family.all(RenderComponent.class, TransformComponent.class).get(), new TransformComparator());
         this.batch = batch;
         this.camera = camera;
         this.mapRenderer = mapRenderer;
@@ -39,15 +41,14 @@ public class RenderSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        var sprite = RenderComponent.mapper.get(entity).sprite;
-        var transform = TransformComponent.mapper.get(entity);
+        var sprite = Mappers.render.get(entity).sprite;
+        var transform = Mappers.transform.get(entity);
 
         sprite.setBounds(
                 transform.position.x,
                 transform.position.y,
                 sprite.getWidth(),
-                sprite.getHeight()
-        );
+                sprite.getHeight());
 
         sprite.draw(batch);
     }
