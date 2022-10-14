@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.badlogic.gdx.Input.Keys.ESCAPE;
 import static com.badlogic.gdx.Input.Keys.F11;
 
 public abstract class BaseScreen implements Screen {
 
     protected final SpriteBatch batch;
     protected final OrthographicCamera camera;
-    private Sizes sizes;
+    private final Sizes sizes;
+    protected boolean isFullscreen = true;
     protected Map<Integer, Action> actionMap = new HashMap<>();
 
     public BaseScreen(Sizes sizes) {
@@ -25,17 +25,19 @@ public abstract class BaseScreen implements Screen {
         this.camera.setToOrtho(false);
 
         actionMap.put(F11, Action.FULLSCREEN);
-        actionMap.put(ESCAPE, Action.EXIT_FULLSCREEN);
     }
 
     public void doAction(Action action) {
         if (action.starting) {
             switch (action) {
                 case FULLSCREEN:
-                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-                    break;
-                case EXIT_FULLSCREEN:
-                    Gdx.graphics.setWindowedMode((int) sizes.windowWidth, (int) sizes.windowHeight);
+                    if (isFullscreen) {
+                        isFullscreen = false;
+                        Gdx.graphics.setWindowedMode((int) sizes.windowWidth, (int) sizes.windowHeight);
+                    } else {
+                        isFullscreen = true;
+                        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                    }
                     break;
             }
         }
@@ -43,6 +45,8 @@ public abstract class BaseScreen implements Screen {
 
     @Override
     public void show() {
+        isFullscreen = true;
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
     }
 
     @Override
