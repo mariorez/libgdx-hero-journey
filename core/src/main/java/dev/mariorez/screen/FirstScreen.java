@@ -15,6 +15,7 @@ import dev.mariorez.Tools;
 import dev.mariorez.component.PlayerComponent;
 import dev.mariorez.component.RenderComponent;
 import dev.mariorez.component.TransformComponent;
+import dev.mariorez.system.BoundToWorldSystem;
 import dev.mariorez.system.CameraSystem;
 import dev.mariorez.system.InputSystem;
 import dev.mariorez.system.MovementSystem;
@@ -46,6 +47,7 @@ public class FirstScreen extends BaseScreen {
 
         engine.addSystem(new InputSystem());
         engine.addSystem(new MovementSystem());
+        engine.addSystem(new BoundToWorldSystem(sizes));
         engine.addSystem(new CameraSystem(camera, sizes));
         engine.addSystem(new RenderSystem(batch, camera, mapRenderer));
     }
