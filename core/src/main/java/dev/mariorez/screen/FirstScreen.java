@@ -12,7 +12,7 @@ import dev.mariorez.component.RenderComponent;
 import dev.mariorez.component.TransformComponent;
 import dev.mariorez.system.CameraSystem;
 import dev.mariorez.system.RenderSystem;
-import dev.mariorez.util.World;
+import dev.mariorez.Sizes;
 
 public class FirstScreen extends BaseScreen {
 
@@ -20,16 +20,25 @@ public class FirstScreen extends BaseScreen {
     private final AssetManager assets;
     private final TiledMap map;
 
-    public FirstScreen(AssetManager assets) {
+    public FirstScreen(Sizes sizes, AssetManager assets) {
+        super(sizes);
+
         this.assets = assets;
+
         map = assets.get("map.tmx", TiledMap.class);
+        int tileWidth = (int) map.getProperties().get("tilewidth");
+        int tileHeight = (int) map.getProperties().get("tileheight");
+        int numTilesHorizontal = (int) map.getProperties().get("width");
+        int numTilesVertical = (int) map.getProperties().get("height");
+        sizes.worldWidth = tileWidth * numTilesHorizontal;
+        sizes.worldHeight = tileHeight * numTilesVertical;
 
         spawnPlayer();
 
         var mapRenderer = new OrthoCachedTiledMapRenderer(map);
         mapRenderer.setBlending(true);
 
-        engine.addSystem(new CameraSystem(camera, new World(map)));
+        engine.addSystem(new CameraSystem(camera, sizes));
         engine.addSystem(new RenderSystem(batch, camera, mapRenderer));
     }
 

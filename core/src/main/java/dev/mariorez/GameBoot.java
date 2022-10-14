@@ -10,8 +10,7 @@ import dev.mariorez.screen.FirstScreen;
 
 public class GameBoot extends Game {
 
-    public static final float WINDOW_WIDTH = 960f;
-    public static final float WINDOW_HEIGHT = 540f;
+    public Sizes sizes = new Sizes(960f, 540f);
     private final AssetManager assets = new AssetManager();
 
     @Override
@@ -27,6 +26,6 @@ public class GameBoot extends Game {
 
         assets.finishLoading();
 
-        setScreen(new FirstScreen(assets));
+        setScreen(new FirstScreen(sizes, assets));
     }
 }
