@@ -8,10 +8,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import dev.mariorez.TransformComparator;
 import dev.mariorez.component.RenderComponent;
 import dev.mariorez.component.TransformComponent;
-import dev.mariorez.util.Mappers;
-import dev.mariorez.util.TransformComparator;
+
+import static dev.mariorez.Tools.renderMapper;
+import static dev.mariorez.Tools.transformMapper;
 
 public class RenderSystem extends SortedIteratingSystem {
 
@@ -19,8 +21,12 @@ public class RenderSystem extends SortedIteratingSystem {
     private final OrthographicCamera camera;
     private final OrthoCachedTiledMapRenderer mapRenderer;
 
-    public RenderSystem(Batch batch, OrthographicCamera camera, OrthoCachedTiledMapRenderer mapRenderer) {
-        super(Family.all(RenderComponent.class, TransformComponent.class).get(), new TransformComparator());
+    public RenderSystem(Batch batch,
+                        OrthographicCamera camera,
+                        OrthoCachedTiledMapRenderer mapRenderer) {
+        super(
+            Family.all(RenderComponent.class, TransformComponent.class).get(),
+            new TransformComparator());
         this.batch = batch;
         this.camera = camera;
         this.mapRenderer = mapRenderer;
@@ -41,14 +47,14 @@ public class RenderSystem extends SortedIteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        var sprite = Mappers.render.get(entity).sprite;
-        var transform = Mappers.transform.get(entity);
+        var sprite = renderMapper.get(entity).sprite;
+        var transform = transformMapper.get(entity);
 
         sprite.setBounds(
-                transform.position.x,
-                transform.position.y,
-                sprite.getWidth(),
-                sprite.getHeight());
+            transform.position.x,
+            transform.position.y,
+            sprite.getWidth(),
+            sprite.getHeight());
 
         sprite.draw(batch);
     }

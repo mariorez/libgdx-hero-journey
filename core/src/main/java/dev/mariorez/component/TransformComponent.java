@@ -15,6 +15,11 @@ public class TransformComponent implements Component, Poolable, Comparable<Trans
     public float maxSpeed = 0f;
     public float rotation = 0f;
 
+    public void setSpeed(float speed) {
+        if (velocity.len() == 0f) velocity.set(speed, 0f);
+        else velocity.setLength(speed);
+    }
+
     @Override
     public void reset() {
         position.set(0, 0);
