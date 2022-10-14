@@ -5,8 +5,10 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import dev.mariorez.Action;
 import dev.mariorez.BaseScreen;
@@ -14,6 +16,7 @@ import dev.mariorez.Sizes;
 import dev.mariorez.Tools;
 import dev.mariorez.component.PlayerComponent;
 import dev.mariorez.component.RenderComponent;
+import dev.mariorez.component.SolidComponent;
 import dev.mariorez.component.TransformComponent;
 import dev.mariorez.system.BoundToWorldSystem;
 import dev.mariorez.system.CameraSystem;
@@ -40,7 +43,7 @@ public class FirstScreen extends BaseScreen {
         sizes.worldHeight = Tools.getWorldHeight(map);
 
         buildControls();
-        spawnPlayer();
+        spawnEntities();
 
         var mapRenderer = new OrthoCachedTiledMapRenderer(map);
         mapRenderer.setBlending(true);
@@ -88,28 +91,54 @@ public class FirstScreen extends BaseScreen {
         actionMap.put(Input.Keys.D, Action.RIGHT);
     }
 
-    private void spawnPlayer() {
-        var x = 0f;
-        var y = 0f;
-
+    private void spawnEntities() {
+        var zIndex = 1f;
         for (MapObject object : map.getLayers().get("objects").getObjects()) {
-            if ("start".equals(object.getName())) {
-                x = (float) object.getProperties().get("x");
-                y = (float) object.getProperties().get("y");
-                break;
+            if (object instanceof TiledMapTileMapObject) {
+                var obj = (TiledMapTileMapObject) object;
+                var type = (String) obj.getTile().getProperties().get("type");
+                switch (type) {
+                    case "bush":
+                    case "rock":
+                        var transform = engine.createComponent(TransformComponent.class);
+                        transform.position.set(obj.getX(), obj.getY());
+                        transform.zIndex = zIndex;
+
+                        var render = engine.createComponent(RenderComponent.class);
+                        render.sprite = new Sprite(assets.get(type + ".png", Texture.class));
+
+                        engine.addEntity(
+                            engine.createEntity()
+                                .add(new SolidComponent(type))
+                                .add(render)
+                                .add(transform)
+                        );
+
+                        zIndex++;
+                        break;
+                }
+            } else {
+                var type = (String) object.getProperties().get("type");
+                switch (type) {
+                    case "player":
+                        spawnPlayer(
+                            (float) object.getProperties().get("x"),
+                            (float) object.getProperties().get("y")
+                        );
+                }
             }
         }
+    }
 
+    private void spawnPlayer(float x, float y) {
         var transform = engine.createComponent(TransformComponent.class);
         transform.position.set(x, y);
         transform.acceleration = 800f;
         transform.deceleration = 800f;
         transform.maxSpeed = 150f;
 
-        var texture = assets.get("npc-1.png", Texture.class);
         var render = engine.createComponent(RenderComponent.class);
-        render.sprite.setRegion(texture);
-        render.sprite.setSize(texture.getWidth(), texture.getHeight());
+        render.sprite = new Sprite(assets.get("npc-1.png", Texture.class));
 
         player = engine.createEntity()
             .add(new PlayerComponent())

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="131">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="132">
  <tileset firstgid="1" name="adventure-tiles" tilewidth="32" tileheight="32" tilecount="40" columns="10">
   <image source="adventure-tiles.png" width="320" height="128"/>
  </tileset>
@@ -7,44 +7,42 @@
   <image source="object-tiles.png" width="256" height="32"/>
   <tile id="0">
    <properties>
-    <property name="name" value="bush"/>
+    <property name="type" value="bush"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
-    <property name="name" value="rock"/>
+    <property name="type" value="rock"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
-    <property name="name" value="coin"/>
+    <property name="type" value="coin"/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
-    <property name="name" value="treasure"/>
+    <property name="type" value="treasure"/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
-    <property name="name" value="flyer"/>
+    <property name="type" value="flyer"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
-    <property name="id" value="default"/>
-    <property name="name" value="npc"/>
-    <property name="text" value="Hello, world!"/>
+    <property name="type" value="npc"/>
    </properties>
   </tile>
   <tile id="6">
    <properties>
-    <property name="name" value="shopheart"/>
+    <property name="type" value="heart-icon"/>
    </properties>
   </tile>
   <tile id="7">
    <properties>
-    <property name="name" value="shoparrow"/>
+    <property name="type" value="arrow-icon"/>
    </properties>
   </tile>
  </tileset>
@@ -95,41 +93,46 @@
  <objectgroup id="2" name="objects">
   <object id="1" x="0" y="0" width="1280" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="3" x="0" y="32" width="32" height="1248">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="4" x="1248" y="32" width="32" height="1248">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="5" x="32" y="1248" width="1216" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
-  <object id="6" name="start" x="640" y="1088" width="32" height="32"/>
-  <object id="23" gid="46" x="464" y="928" width="32" height="32">
+  <object id="6" x="640" y="1088" width="32" height="32">
    <properties>
-    <property name="id" value="Gatekeeper"/>
-    <property name="text" value="Hello, world!"/>
+    <property name="type" value="player"/>
    </properties>
   </object>
-  <object id="24" gid="47" x="800" y="832" width="32" height="32"/>
-  <object id="25" gid="48" x="896" y="832" width="32" height="32"/>
-  <object id="26" gid="46" x="845.333" y="774.667" width="32" height="32">
+  <object id="23" name="gatekeeper" gid="46" x="464" y="928" width="32" height="32"/>
+  <object id="24" gid="47" x="800" y="832" width="32" height="32">
    <properties>
-    <property name="id" value="Shopkeeper"/>
-    <property name="text">1 Heart for 3 Coins! 
- 3 Arrows for 4 Coins!</property>
+    <property name="type" value="heart-icon"/>
    </properties>
   </object>
-  <object id="30" gid="44" x="464.667" y="785.333" width="32" height="32"/>
+  <object id="25" gid="48" x="896" y="832" width="32" height="32">
+   <properties>
+    <property name="type" value="arrow-icon"/>
+   </properties>
+  </object>
+  <object id="26" name="shopkeeper" gid="46" x="845.333" y="774.667" width="32" height="32"/>
+  <object id="30" gid="44" x="464.667" y="785.333" width="32" height="32">
+   <properties>
+    <property name="type" value="treasure"/>
+   </properties>
+  </object>
   <object id="36" gid="41" x="320" y="960" width="32" height="32"/>
   <object id="37" gid="41" x="288" y="992" width="32" height="32"/>
   <object id="38" gid="41" x="288" y="1024" width="32" height="32"/>
@@ -168,52 +171,52 @@
   <object id="74" gid="41" x="704" y="672" width="32" height="32"/>
   <object id="75" x="736" y="672" width="256" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="78" x="352" y="672" width="256" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="79" x="352" y="896" width="96" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="80" x="512" y="896" width="96" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="81" x="736" y="896" width="96" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="82" x="896" y="896" width="96" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="83" x="960" y="704" width="32" height="192">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="84" x="736" y="704" width="32" height="192">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="85" x="576" y="704" width="32" height="192">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="86" x="352" y="704" width="32" height="192">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="type" value="solid"/>
    </properties>
   </object>
   <object id="87" gid="45" x="192" y="1088" width="32" height="32"/>
