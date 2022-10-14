@@ -47,9 +47,14 @@ public class GameBoot extends Game {
         assets.setLoader(TiledMap.class, new TmxMapLoader());
 
         assets.load("map.tmx", TiledMap.class);
-        assets.load("npc-1.png", Texture.class, param);
         assets.load("bush.png", Texture.class, param);
         assets.load("rock.png", Texture.class, param);
+        assets.load("gatekeeper.png", Texture.class, param);
+        assets.load("shopkeeper.png", Texture.class, param);
+        assets.load("treasure.png", Texture.class, param);
+        assets.load("heart-icon.png", Texture.class, param);
+        assets.load("arrow-icon.png", Texture.class, param);
+        assets.load("coin.png", Texture.class, param);
 
         assets.finishLoading();
 

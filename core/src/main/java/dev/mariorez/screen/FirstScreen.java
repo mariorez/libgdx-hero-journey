@@ -16,6 +16,7 @@ import dev.mariorez.Sizes;
 import dev.mariorez.Tools;
 import dev.mariorez.component.Player;
 import dev.mariorez.component.Render;
+import dev.mariorez.component.Reward;
 import dev.mariorez.component.Solid;
 import dev.mariorez.component.Transform;
 import dev.mariorez.system.BoundToWorldSystem;
@@ -94,29 +95,39 @@ public class FirstScreen extends BaseScreen {
     }
 
     private void spawnEntities() {
-        var zIndex = 1f;
+        var zIndex = 0f;
         for (MapObject object : map.getLayers().get("objects").getObjects()) {
             if (object instanceof TiledMapTileMapObject) {
                 var obj = (TiledMapTileMapObject) object;
                 var type = (String) obj.getTile().getProperties().get("type");
+
+                var transform = engine.createComponent(Transform.class);
+                transform.position.set(obj.getX(), obj.getY());
+                transform.zIndex = zIndex;
+                var render = engine.createComponent(Render.class);
+                zIndex++;
+
                 switch (type) {
                     case "bush":
                     case "rock":
-                        var transform = engine.createComponent(Transform.class);
-                        transform.position.set(obj.getX(), obj.getY());
-                        transform.zIndex = zIndex;
-
-                        var render = engine.createComponent(Render.class);
                         render.sprite = new Sprite(assets.get(type + ".png", Texture.class));
-
                         engine.addEntity(
                             engine.createEntity()
                                 .add(new Solid(type))
                                 .add(render)
-                                .add(transform)
-                        );
+                                .add(transform));
+                        break;
 
-                        zIndex++;
+                    case "treasure":
+                    case "heart-icon":
+                    case "arrow-icon":
+                    case "coin":
+                        render.sprite = new Sprite(assets.get(type + ".png", Texture.class));
+                        engine.addEntity(
+                            engine.createEntity()
+                                .add(new Reward(type))
+                                .add(render)
+                                .add(transform));
                         break;
                 }
             } else {
@@ -140,7 +151,7 @@ public class FirstScreen extends BaseScreen {
         transform.maxSpeed = 150f;
 
         var render = engine.createComponent(Render.class);
-        render.sprite = new Sprite(assets.get("npc-1.png", Texture.class));
+        render.sprite = new Sprite(assets.get("gatekeeper.png", Texture.class));
 
         player = engine.createEntity()
             .add(new Player())
