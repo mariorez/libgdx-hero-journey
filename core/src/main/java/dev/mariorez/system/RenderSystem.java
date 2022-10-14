@@ -47,6 +47,9 @@ public class RenderSystem extends SortedIteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+
+        if (!renderMapper.get(entity).visible) return;
+
         var sprite = renderMapper.get(entity).sprite;
         var transform = transformMapper.get(entity);
 

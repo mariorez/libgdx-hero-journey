@@ -96,16 +96,17 @@ public class FirstScreen extends BaseScreen {
 
     private void spawnEntities() {
         var zIndex = 0f;
+
         for (MapObject object : map.getLayers().get("objects").getObjects()) {
+
+            var transform = engine.createComponent(Transform.class);
+            transform.zIndex = zIndex++;
+            var render = engine.createComponent(Render.class);
+
             if (object instanceof TiledMapTileMapObject) {
                 var obj = (TiledMapTileMapObject) object;
                 var type = (String) obj.getTile().getProperties().get("type");
-
-                var transform = engine.createComponent(Transform.class);
                 transform.position.set(obj.getX(), obj.getY());
-                transform.zIndex = zIndex;
-                var render = engine.createComponent(Render.class);
-                zIndex++;
 
                 switch (type) {
                     case "bush":
@@ -129,15 +130,38 @@ public class FirstScreen extends BaseScreen {
                                 .add(render)
                                 .add(transform));
                         break;
+
+                    case "npc":
+                        render.sprite = new Sprite(assets.get(obj.getName() + ".png", Texture.class));
+                        engine.addEntity(
+                            engine.createEntity()
+                                .add(new Solid(obj.getName()))
+                                .add(render)
+                                .add(transform));
+                        break;
                 }
             } else {
                 var type = (String) object.getProperties().get("type");
+                var x = (float) object.getProperties().get("x");
+                var y = (float) object.getProperties().get("y");
+
                 switch (type) {
+                    case "solid":
+                        var width = (float) object.getProperties().get("width");
+                        var height = (float) object.getProperties().get("height");
+                        render.sprite.setPosition(x, y);
+                        render.sprite.setSize(width, height);
+                        render.visible = false;
+                        engine.addEntity(
+                            engine.createEntity()
+                                .add(new Solid(object.getProperties().get("type").toString()))
+                                .add(render)
+                                .add(transform));
+                        break;
+
                     case "player":
-                        spawnPlayer(
-                            (float) object.getProperties().get("x"),
-                            (float) object.getProperties().get("y")
-                        );
+                        spawnPlayer(x, y);
+                        break;
                 }
             }
         }

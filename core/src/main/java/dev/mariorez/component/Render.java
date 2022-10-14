@@ -10,6 +10,7 @@ public class Render implements Component, Poolable {
 
     public Sprite sprite = new Sprite();
     public Polygon polygon;
+    public boolean visible = true;
 
     public Polygon getPolygon() {
         if (polygon != null) {
