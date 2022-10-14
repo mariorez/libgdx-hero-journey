@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class RenderComponent implements Component, Poolable {
+public class Render implements Component, Poolable {
 
     public Sprite sprite = new Sprite();
     public Polygon polygon;

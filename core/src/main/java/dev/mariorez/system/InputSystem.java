@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
-import dev.mariorez.component.PlayerComponent;
+import dev.mariorez.component.Player;
 
 import static dev.mariorez.Tools.playerMapper;
 import static dev.mariorez.Tools.transformMapper;
@@ -12,7 +12,7 @@ import static dev.mariorez.Tools.transformMapper;
 public class InputSystem extends IteratingSystem {
 
     public InputSystem() {
-        super(Family.all(PlayerComponent.class).get());
+        super(Family.all(Player.class).get());
     }
 
     private final Vector2 speedUp = new Vector2();

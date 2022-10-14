@@ -14,10 +14,10 @@ import dev.mariorez.Action;
 import dev.mariorez.BaseScreen;
 import dev.mariorez.Sizes;
 import dev.mariorez.Tools;
-import dev.mariorez.component.PlayerComponent;
-import dev.mariorez.component.RenderComponent;
-import dev.mariorez.component.SolidComponent;
-import dev.mariorez.component.TransformComponent;
+import dev.mariorez.component.Player;
+import dev.mariorez.component.Render;
+import dev.mariorez.component.Solid;
+import dev.mariorez.component.Transform;
 import dev.mariorez.system.BoundToWorldSystem;
 import dev.mariorez.system.CameraSystem;
 import dev.mariorez.system.CollisionSystem;
@@ -102,16 +102,16 @@ public class FirstScreen extends BaseScreen {
                 switch (type) {
                     case "bush":
                     case "rock":
-                        var transform = engine.createComponent(TransformComponent.class);
+                        var transform = engine.createComponent(Transform.class);
                         transform.position.set(obj.getX(), obj.getY());
                         transform.zIndex = zIndex;
 
-                        var render = engine.createComponent(RenderComponent.class);
+                        var render = engine.createComponent(Render.class);
                         render.sprite = new Sprite(assets.get(type + ".png", Texture.class));
 
                         engine.addEntity(
                             engine.createEntity()
-                                .add(new SolidComponent(type))
+                                .add(new Solid(type))
                                 .add(render)
                                 .add(transform)
                         );
@@ -133,17 +133,17 @@ public class FirstScreen extends BaseScreen {
     }
 
     private void spawnPlayer(float x, float y) {
-        var transform = engine.createComponent(TransformComponent.class);
+        var transform = engine.createComponent(Transform.class);
         transform.position.set(x, y);
         transform.acceleration = 800f;
         transform.deceleration = 800f;
         transform.maxSpeed = 150f;
 
-        var render = engine.createComponent(RenderComponent.class);
+        var render = engine.createComponent(Render.class);
         render.sprite = new Sprite(assets.get("npc-1.png", Texture.class));
 
         player = engine.createEntity()
-            .add(new PlayerComponent())
+            .add(new Player())
             .add(render)
             .add(transform);
 

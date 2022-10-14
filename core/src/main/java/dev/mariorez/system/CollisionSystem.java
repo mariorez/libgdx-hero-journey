@@ -6,7 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.math.Polygon;
-import dev.mariorez.component.SolidComponent;
+import dev.mariorez.component.Solid;
 
 import static dev.mariorez.Tools.renderMapper;
 import static dev.mariorez.Tools.transformMapper;
@@ -16,7 +16,7 @@ public class CollisionSystem extends IteratingSystem {
     private final Entity player;
 
     public CollisionSystem(Entity player) {
-        super(Family.all(SolidComponent.class).get());
+        super(Family.all(Solid.class).get());
         this.player = player;
     }
 

@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import dev.mariorez.Sizes;
-import dev.mariorez.component.PlayerComponent;
+import dev.mariorez.component.Player;
 
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static dev.mariorez.Tools.renderMapper;
@@ -15,7 +15,7 @@ public class BoundToWorldSystem extends IteratingSystem {
     private final Sizes sizes;
 
     public BoundToWorldSystem(Sizes sizes) {
-        super(Family.all(PlayerComponent.class).get());
+        super(Family.all(Player.class).get());
         this.sizes = sizes;
     }
 

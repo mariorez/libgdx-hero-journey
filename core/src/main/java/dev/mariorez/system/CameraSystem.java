@@ -6,7 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import dev.mariorez.Sizes;
-import dev.mariorez.component.PlayerComponent;
+import dev.mariorez.component.Player;
 
 import static dev.mariorez.Tools.transformMapper;
 
@@ -19,7 +19,7 @@ public class CameraSystem extends IteratingSystem {
     private final float maxHeight;
 
     public CameraSystem(OrthographicCamera camera, Sizes world) {
-        super(Family.all(PlayerComponent.class).get());
+        super(Family.all(Player.class).get());
         this.camera = camera;
         minWidth = camera.viewportWidth / 2;
         minHeight = camera.viewportHeight / 2;

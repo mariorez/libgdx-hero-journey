@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import dev.mariorez.TransformComparator;
-import dev.mariorez.component.RenderComponent;
-import dev.mariorez.component.TransformComponent;
+import dev.mariorez.component.Render;
+import dev.mariorez.component.Transform;
 
 import static dev.mariorez.Tools.renderMapper;
 import static dev.mariorez.Tools.transformMapper;
@@ -25,7 +25,7 @@ public class RenderSystem extends SortedIteratingSystem {
                         OrthographicCamera camera,
                         OrthoCachedTiledMapRenderer mapRenderer) {
         super(
-            Family.all(RenderComponent.class, TransformComponent.class).get(),
+            Family.all(Render.class, Transform.class).get(),
             new TransformComparator());
         this.batch = batch;
         this.camera = camera;

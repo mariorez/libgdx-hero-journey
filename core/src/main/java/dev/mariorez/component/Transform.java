@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class TransformComponent implements Component, Poolable, Comparable<TransformComponent> {
+public class Transform implements Component, Poolable, Comparable<Transform> {
 
     public Vector2 position = new Vector2();
     public float zIndex = 0f;
@@ -33,7 +33,7 @@ public class TransformComponent implements Component, Poolable, Comparable<Trans
     }
 
     @Override
-    public int compareTo(TransformComponent o) {
+    public int compareTo(Transform o) {
         return Float.compare(o.zIndex, zIndex);
     }
 }
