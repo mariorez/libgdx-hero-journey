@@ -1,6 +1,9 @@
 package dev.mariorez;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +18,28 @@ public class GameBoot extends Game {
 
     @Override
     public void create() {
+
+        Gdx.input.setInputProcessor(new InputMultiplexer(new InputAdapter() {
+            public boolean keyDown(int keycode) {
+                var currentScreen = (BaseScreen) getScreen();
+                if (currentScreen.actionMap.containsKey(keycode)) {
+                    var action = currentScreen.actionMap.get(keycode);
+                    action.starting = true;
+                    currentScreen.doAction(action);
+                }
+                return super.keyDown(keycode);
+            }
+
+            public boolean keyUp(int keycode) {
+                var currentScreen = (BaseScreen) getScreen();
+                if (currentScreen.actionMap.containsKey(keycode)) {
+                    var action = currentScreen.actionMap.get(keycode);
+                    action.starting = false;
+                    currentScreen.doAction(action);
+                }
+                return super.keyDown(keycode);
+            }
+        }));
 
         var param = new TextureLoader.TextureParameter();
         param.minFilter = Texture.TextureFilter.Linear;

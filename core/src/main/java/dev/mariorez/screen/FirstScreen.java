@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import dev.mariorez.Action;
 import dev.mariorez.BaseScreen;
+import dev.mariorez.Sizes;
 import dev.mariorez.component.PlayerComponent;
 import dev.mariorez.component.RenderComponent;
 import dev.mariorez.component.TransformComponent;
 import dev.mariorez.system.CameraSystem;
 import dev.mariorez.system.RenderSystem;
-import dev.mariorez.Sizes;
 
 public class FirstScreen extends BaseScreen {
 
@@ -42,6 +43,16 @@ public class FirstScreen extends BaseScreen {
         engine.addSystem(new RenderSystem(batch, camera, mapRenderer));
     }
 
+    @Override
+    public void render(float delta) {
+        engine.update(delta);
+    }
+
+    @Override
+    public void doAction(Action action) {
+        super.doAction(action);
+    }
+
     private void spawnPlayer() {
         var x = 0f;
         var y = 0f;
@@ -63,13 +74,8 @@ public class FirstScreen extends BaseScreen {
         render.sprite.setSize(texture.getWidth(), texture.getHeight());
 
         engine.addEntity(engine.createEntity()
-                .add(new PlayerComponent())
-                .add(render)
-                .add(transform));
-    }
-
-    @Override
-    public void render(float delta) {
-        engine.update(delta);
+            .add(new PlayerComponent())
+            .add(render)
+            .add(transform));
     }
 }
