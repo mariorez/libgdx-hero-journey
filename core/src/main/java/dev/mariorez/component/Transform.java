@@ -20,6 +20,10 @@ public class Transform implements Component, Poolable, Comparable<Transform> {
         else velocity.setLength(speed);
     }
 
+    public void setMotionAngle(float angle) {
+        velocity.setAngleDeg(angle);
+    }
+
     @Override
     public void reset() {
         position.set(0, 0);

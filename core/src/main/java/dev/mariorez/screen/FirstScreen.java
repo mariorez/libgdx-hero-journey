@@ -14,11 +14,13 @@ import dev.mariorez.Action;
 import dev.mariorez.BaseScreen;
 import dev.mariorez.Sizes;
 import dev.mariorez.Tools;
+import dev.mariorez.component.Flyer;
 import dev.mariorez.component.Player;
 import dev.mariorez.component.Render;
 import dev.mariorez.component.Reward;
 import dev.mariorez.component.Solid;
 import dev.mariorez.component.Transform;
+import dev.mariorez.system.AnimationSystem;
 import dev.mariorez.system.BoundToWorldSystem;
 import dev.mariorez.system.CameraSystem;
 import dev.mariorez.system.CollisionSystem;
@@ -26,6 +28,14 @@ import dev.mariorez.system.InputSystem;
 import dev.mariorez.system.MovementSystem;
 import dev.mariorez.system.RenderSystem;
 
+import java.util.Random;
+
+import static dev.mariorez.Tools.ANIMATION_ENEMY_FLYER;
+import static dev.mariorez.Tools.ANIMATION_HERO_EAST;
+import static dev.mariorez.Tools.ANIMATION_HERO_NORTH;
+import static dev.mariorez.Tools.ANIMATION_HERO_SOUTH;
+import static dev.mariorez.Tools.ANIMATION_HERO_WEST;
+import static dev.mariorez.Tools.generateAnimationBag;
 import static dev.mariorez.Tools.playerMapper;
 
 public class FirstScreen extends BaseScreen {
@@ -54,6 +64,7 @@ public class FirstScreen extends BaseScreen {
         engine.addSystem(new MovementSystem());
         engine.addSystem(new BoundToWorldSystem(sizes));
         engine.addSystem(new CameraSystem(camera, sizes));
+        engine.addSystem(new AnimationSystem());
         engine.addSystem(new RenderSystem(batch, camera, mapRenderer));
         engine.addSystem(new CollisionSystem(player));
     }
@@ -79,8 +90,9 @@ public class FirstScreen extends BaseScreen {
             case RIGHT:
                 playerInput.right = action.starting;
                 break;
+            default:
+                super.doAction(action);
         }
-        super.doAction(action);
     }
 
     private void buildControls() {
@@ -109,6 +121,10 @@ public class FirstScreen extends BaseScreen {
                 transform.position.set(obj.getX(), obj.getY());
 
                 switch (type) {
+                    case "flyer":
+                        spawnFlyer(obj.getX(), obj.getY());
+                        break;
+
                     case "bush":
                     case "rock":
                         render.sprite = new Sprite(assets.get(type + ".png", Texture.class));
@@ -146,6 +162,10 @@ public class FirstScreen extends BaseScreen {
                 var y = (float) object.getProperties().get("y");
 
                 switch (type) {
+                    case "player":
+                        spawnPlayer(x, y);
+                        break;
+
                     case "solid":
                         var width = (float) object.getProperties().get("width");
                         var height = (float) object.getProperties().get("height");
@@ -158,16 +178,52 @@ public class FirstScreen extends BaseScreen {
                                 .add(render)
                                 .add(transform));
                         break;
-
-                    case "player":
-                        spawnPlayer(x, y);
-                        break;
                 }
             }
         }
     }
 
+    private float flyerIndex = -0.1f;
+
+    private void spawnFlyer(float x, float y) {
+        var animationBag = generateAnimationBag(
+            assets.get("flyer.png", Texture.class),
+            4,
+            1,
+            0.1f,
+            true,
+            ANIMATION_ENEMY_FLYER);
+
+        var speed = (float) new Random().ints(50, 80).findFirst().getAsInt();
+        var angle = (float) new Random().ints(0, 360).findFirst().getAsInt();
+
+        var transform = engine.createComponent(Transform.class);
+        transform.position.set(x, y);
+        transform.zIndex = flyerIndex;
+        transform.maxSpeed = 80f;
+        transform.setSpeed(speed);
+        transform.setMotionAngle(angle);
+
+        var render = engine.createComponent(Render.class);
+
+        engine.addEntity(engine.createEntity()
+            .add(new Flyer())
+            .add(render)
+            .add(transform)
+            .add(animationBag));
+
+        flyerIndex -= 0.1f;
+    }
+
     private void spawnPlayer(float x, float y) {
+        var animationBag = generateAnimationBag(
+            assets.get("hero.png", Texture.class),
+            4,
+            4,
+            0.2f,
+            true,
+            ANIMATION_HERO_SOUTH, ANIMATION_HERO_WEST, ANIMATION_HERO_EAST, ANIMATION_HERO_NORTH);
+
         var transform = engine.createComponent(Transform.class);
         transform.position.set(x, y);
         transform.acceleration = 800f;
@@ -175,12 +231,12 @@ public class FirstScreen extends BaseScreen {
         transform.maxSpeed = 150f;
 
         var render = engine.createComponent(Render.class);
-        render.sprite = new Sprite(assets.get("gatekeeper.png", Texture.class));
 
         player = engine.createEntity()
             .add(new Player())
             .add(render)
-            .add(transform);
+            .add(transform)
+            .add(animationBag);
 
         engine.addEntity(player);
     }

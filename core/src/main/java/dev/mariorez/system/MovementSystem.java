@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
+import dev.mariorez.component.Flyer;
 import dev.mariorez.component.Player;
 
 import static dev.mariorez.Tools.transformMapper;
@@ -11,7 +12,7 @@ import static dev.mariorez.Tools.transformMapper;
 public class MovementSystem extends IteratingSystem {
 
     public MovementSystem() {
-        super(Family.all(Player.class).get());
+        super(Family.one(Player.class, Flyer.class).get());
     }
 
     @Override
