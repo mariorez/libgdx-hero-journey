@@ -26,6 +26,7 @@ import dev.mariorez.system.CameraSystem;
 import dev.mariorez.system.CollisionSystem;
 import dev.mariorez.system.InputSystem;
 import dev.mariorez.system.MovementSystem;
+import dev.mariorez.system.RandomMoveSystem;
 import dev.mariorez.system.RenderSystem;
 
 import java.util.Random;
@@ -63,10 +64,11 @@ public class FirstScreen extends BaseScreen {
         engine.addSystem(new InputSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new BoundToWorldSystem(sizes));
+        engine.addSystem(new RandomMoveSystem());
         engine.addSystem(new CameraSystem(camera, sizes));
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new RenderSystem(batch, camera, mapRenderer));
-        engine.addSystem(new CollisionSystem(player));
+        engine.addSystem(new CollisionSystem());
     }
 
     @Override
