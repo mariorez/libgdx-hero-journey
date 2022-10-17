@@ -1,7 +1,6 @@
 package dev.mariorez.system;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,9 +8,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import dev.mariorez.TransformComparator;
+import dev.mariorez.component.InvisibleSolid;
 import dev.mariorez.component.Render;
 import dev.mariorez.component.Transform;
 
+import static com.badlogic.ashley.core.Family.all;
 import static dev.mariorez.Tools.renderMapper;
 import static dev.mariorez.Tools.transformMapper;
 
@@ -24,8 +25,7 @@ public class RenderSystem extends SortedIteratingSystem {
     public RenderSystem(Batch batch,
                         OrthographicCamera camera,
                         OrthoCachedTiledMapRenderer mapRenderer) {
-        super(
-            Family.all(Render.class, Transform.class).get(),
+        super(all(Render.class, Transform.class).exclude(InvisibleSolid.class).get(),
             new TransformComparator());
         this.batch = batch;
         this.camera = camera;
@@ -47,8 +47,6 @@ public class RenderSystem extends SortedIteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-
-        if (!renderMapper.get(entity).visible) return;
 
         var sprite = renderMapper.get(entity).sprite;
         var transform = transformMapper.get(entity);

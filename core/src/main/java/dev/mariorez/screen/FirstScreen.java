@@ -15,11 +15,13 @@ import dev.mariorez.BaseScreen;
 import dev.mariorez.Sizes;
 import dev.mariorez.Tools;
 import dev.mariorez.component.Flyer;
+import dev.mariorez.component.InvisibleSolid;
+import dev.mariorez.component.Npc;
 import dev.mariorez.component.Player;
 import dev.mariorez.component.Render;
 import dev.mariorez.component.Reward;
-import dev.mariorez.component.Solid;
 import dev.mariorez.component.Transform;
+import dev.mariorez.component.VisibleSolid;
 import dev.mariorez.system.AnimationSystem;
 import dev.mariorez.system.BoundToWorldSystem;
 import dev.mariorez.system.CameraSystem;
@@ -132,7 +134,7 @@ public class FirstScreen extends BaseScreen {
                         render.sprite = new Sprite(assets.get(type + ".png", Texture.class));
                         engine.addEntity(
                             engine.createEntity()
-                                .add(new Solid(type))
+                                .add(new VisibleSolid(type))
                                 .add(render)
                                 .add(transform));
                         break;
@@ -153,7 +155,7 @@ public class FirstScreen extends BaseScreen {
                         render.sprite = new Sprite(assets.get(obj.getName() + ".png", Texture.class));
                         engine.addEntity(
                             engine.createEntity()
-                                .add(new Solid(obj.getName()))
+                                .add(new Npc(obj.getName()))
                                 .add(render)
                                 .add(transform));
                         break;
@@ -173,10 +175,9 @@ public class FirstScreen extends BaseScreen {
                         var height = (float) object.getProperties().get("height");
                         render.sprite.setPosition(x, y);
                         render.sprite.setSize(width, height);
-                        render.visible = false;
                         engine.addEntity(
                             engine.createEntity()
-                                .add(new Solid(object.getProperties().get("type").toString()))
+                                .add(new InvisibleSolid())
                                 .add(render)
                                 .add(transform));
                         break;
