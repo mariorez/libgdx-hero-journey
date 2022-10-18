@@ -2,9 +2,8 @@ package dev.mariorez.component;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class Transform implements Component, Poolable, Comparable<Transform> {
+public class Transform implements Component, Comparable<Transform> {
 
     public Vector2 position = new Vector2();
     public float zIndex = 0f;
@@ -30,18 +29,6 @@ public class Transform implements Component, Poolable, Comparable<Transform> {
 
     public void rotateBy(float degrees) {
         if (degrees != 0f) rotation = (rotation + degrees) % 360;
-    }
-
-    @Override
-    public void reset() {
-        position.set(0, 0);
-        zIndex = 0f;
-        velocity.set(0, 0);
-        accelerator.set(0, 0);
-        acceleration = 0f;
-        deceleration = 0f;
-        maxSpeed = 0f;
-        rotation = 0f;
     }
 
     @Override

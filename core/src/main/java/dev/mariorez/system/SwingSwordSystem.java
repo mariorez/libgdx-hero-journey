@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Vector2;
 import dev.mariorez.component.Hero;
 import dev.mariorez.component.Sword;
+import dev.mariorez.component.Transform;
 
 import static dev.mariorez.Tools.ANIMATION_HERO_EAST;
 import static dev.mariorez.Tools.ANIMATION_HERO_NORTH;
@@ -49,22 +50,22 @@ public class SwingSwordSystem extends EntitySystem {
             case ANIMATION_HERO_EAST:
                 offset.set(0.50f, 0.20f);
                 swordTransform.rotation = 0f;
-                swordTransform.zIndex = 1f;
+                exchange(heroTransform, swordTransform);
                 break;
             case ANIMATION_HERO_NORTH:
                 offset.set(0.10f, 0.90f);
                 swordTransform.rotation = 90f;
-                swordTransform.zIndex = 1f;
+                exchange(heroTransform, swordTransform);
                 break;
             case ANIMATION_HERO_WEST:
                 offset.set(-0.50f, 0.20f);
                 swordTransform.rotation = 180f;
-                swordTransform.zIndex = -1f;
+                exchange(swordTransform, heroTransform);
                 break;
             case ANIMATION_HERO_SOUTH:
                 offset.set(0.10f, -0.10f);
                 swordTransform.rotation = 270f;
-                swordTransform.zIndex = -1f;
+                exchange(swordTransform, heroTransform);
                 break;
         }
 
@@ -74,5 +75,11 @@ public class SwingSwordSystem extends EntitySystem {
         );
 
         renderMapper.get(sword).visible = true;
+    }
+
+    private void exchange(Transform toFront, Transform toBack) {
+        if (toFront.zIndex >= toBack.zIndex) {
+            toFront.zIndex = toBack.zIndex - 0.1f;
+        }
     }
 }

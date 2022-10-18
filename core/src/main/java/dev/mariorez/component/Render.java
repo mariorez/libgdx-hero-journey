@@ -4,9 +4,8 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class Render implements Component, Poolable {
+public class Render implements Component {
 
     public Sprite sprite = new Sprite();
     public Polygon polygon;
@@ -50,10 +49,5 @@ public class Render implements Component, Poolable {
         polygon = new Polygon(vertices);
 
         return getPolygon();
-    }
-
-    @Override
-    public void reset() {
-        sprite = new Sprite();
     }
 }

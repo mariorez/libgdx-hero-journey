@@ -22,11 +22,8 @@ public class RenderSystem extends SortedIteratingSystem {
     private final OrthographicCamera camera;
     private final OrthoCachedTiledMapRenderer mapRenderer;
 
-    public RenderSystem(Batch batch,
-                        OrthographicCamera camera,
-                        OrthoCachedTiledMapRenderer mapRenderer) {
-        super(all(Render.class, Transform.class).exclude(InvisibleSolid.class).get(),
-            new TransformComparator());
+    public RenderSystem(Batch batch, OrthographicCamera camera, OrthoCachedTiledMapRenderer mapRenderer) {
+        super(all(Render.class, Transform.class).exclude(InvisibleSolid.class).get(), new TransformComparator());
         this.batch = batch;
         this.camera = camera;
         this.mapRenderer = mapRenderer;
@@ -34,6 +31,8 @@ public class RenderSystem extends SortedIteratingSystem {
 
     @Override
     public void update(float deltaTime) {
+        forceSort();
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         mapRenderer.setView(camera);

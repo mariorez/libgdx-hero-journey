@@ -1,7 +1,7 @@
 package dev.mariorez.screen;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -45,7 +45,7 @@ import static dev.mariorez.Tools.heroMapper;
 
 public class FirstScreen extends BaseScreen {
 
-    private final PooledEngine engine = new PooledEngine();
+    private final Engine engine = new Engine();
     private final AssetManager assets;
     private final TiledMap map;
     private Entity hero;
@@ -123,9 +123,9 @@ public class FirstScreen extends BaseScreen {
 
         for (MapObject object : map.getLayers().get("objects").getObjects()) {
 
-            var transform = engine.createComponent(Transform.class);
+            var transform = new Transform();
             transform.zIndex = zIndex++;
-            var render = engine.createComponent(Render.class);
+            var render = new Render();
 
             if (object instanceof TiledMapTileMapObject) {
                 var obj = (TiledMapTileMapObject) object;
@@ -140,11 +140,10 @@ public class FirstScreen extends BaseScreen {
                     case "bush":
                     case "rock":
                         render.sprite = new Sprite(assets.get(type + ".png", Texture.class));
-                        engine.addEntity(
-                            engine.createEntity()
-                                .add(new VisibleSolid(type))
-                                .add(render)
-                                .add(transform));
+                        engine.addEntity(new Entity()
+                            .add(new VisibleSolid(type))
+                            .add(render)
+                            .add(transform));
                         break;
 
                     case "treasure":
@@ -152,20 +151,18 @@ public class FirstScreen extends BaseScreen {
                     case "arrow-icon":
                     case "coin":
                         render.sprite = new Sprite(assets.get(type + ".png", Texture.class));
-                        engine.addEntity(
-                            engine.createEntity()
-                                .add(new Reward(type))
-                                .add(render)
-                                .add(transform));
+                        engine.addEntity(new Entity()
+                            .add(new Reward(type))
+                            .add(render)
+                            .add(transform));
                         break;
 
                     case "npc":
                         render.sprite = new Sprite(assets.get(obj.getName() + ".png", Texture.class));
-                        engine.addEntity(
-                            engine.createEntity()
-                                .add(new Npc(obj.getName()))
-                                .add(render)
-                                .add(transform));
+                        engine.addEntity(new Entity()
+                            .add(new Npc(obj.getName()))
+                            .add(render)
+                            .add(transform));
                         break;
                 }
             } else {
@@ -183,11 +180,10 @@ public class FirstScreen extends BaseScreen {
                         var height = (float) object.getProperties().get("height");
                         render.sprite.setPosition(x, y);
                         render.sprite.setSize(width, height);
-                        engine.addEntity(
-                            engine.createEntity()
-                                .add(new InvisibleSolid())
-                                .add(render)
-                                .add(transform));
+                        engine.addEntity(new Entity()
+                            .add(new InvisibleSolid())
+                            .add(render)
+                            .add(transform));
                         break;
                 }
             }
@@ -208,18 +204,16 @@ public class FirstScreen extends BaseScreen {
         var speed = (float) new Random().ints(50, 80).findFirst().getAsInt();
         var angle = (float) new Random().ints(0, 360).findFirst().getAsInt();
 
-        var transform = engine.createComponent(Transform.class);
+        var transform = new Transform();
         transform.position.set(x, y);
         transform.zIndex = flyerIndex;
         transform.maxSpeed = 80f;
         transform.setSpeed(speed);
         transform.setMotionAngle(angle);
 
-        var render = engine.createComponent(Render.class);
-
-        engine.addEntity(engine.createEntity()
+        engine.addEntity(new Entity()
             .add(new Flyer())
-            .add(render)
+            .add(new Render())
             .add(transform)
             .add(animationBag));
 
@@ -235,17 +229,15 @@ public class FirstScreen extends BaseScreen {
             true,
             ANIMATION_HERO_SOUTH, ANIMATION_HERO_WEST, ANIMATION_HERO_EAST, ANIMATION_HERO_NORTH);
 
-        var transform = engine.createComponent(Transform.class);
+        var transform = new Transform();
         transform.position.set(x, y);
         transform.acceleration = 800f;
         transform.deceleration = 800f;
         transform.maxSpeed = 150f;
 
-        var render = engine.createComponent(Render.class);
-
-        hero = engine.createEntity()
+        hero = new Entity()
             .add(new Hero())
-            .add(render)
+            .add(new Render())
             .add(transform)
             .add(animationBag);
 
@@ -253,13 +245,12 @@ public class FirstScreen extends BaseScreen {
     }
 
     private void spawnSword() {
-        var transform = engine.createComponent(Transform.class);
-        transform.zIndex = 1f;
-        var render = engine.createComponent(Render.class);
+        var transform = new Transform();
+        var render = new Render();
         render.sprite = new Sprite(assets.get("sword.png", Texture.class));
         render.visible = false;
 
-        engine.addEntity(engine.createEntity()
+        engine.addEntity(new Entity()
             .add(new Sword())
             .add(transform)
             .add(render));
