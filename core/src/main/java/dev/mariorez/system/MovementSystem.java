@@ -1,18 +1,18 @@
 package dev.mariorez.system;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import dev.mariorez.component.Flyer;
-import dev.mariorez.component.Player;
+import dev.mariorez.component.Hero;
 
+import static com.badlogic.ashley.core.Family.one;
 import static dev.mariorez.Tools.transformMapper;
 
 public class MovementSystem extends IteratingSystem {
 
     public MovementSystem() {
-        super(Family.one(Player.class, Flyer.class).get());
+        super(one(Hero.class, Flyer.class).get());
     }
 
     @Override

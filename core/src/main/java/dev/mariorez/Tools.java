@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
 import dev.mariorez.component.AnimationBag;
-import dev.mariorez.component.Player;
+import dev.mariorez.component.Hero;
 import dev.mariorez.component.Render;
 import dev.mariorez.component.Transform;
 
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import static com.badlogic.ashley.core.ComponentMapper.getFor;
 
 public class Tools {
-    public static final ComponentMapper<Player> playerMapper = getFor(Player.class);
+    public static final ComponentMapper<Hero> heroMapper = getFor(Hero.class);
     public static final ComponentMapper<Transform> transformMapper = getFor(Transform.class);
     public static final ComponentMapper<Render> renderMapper = getFor(Render.class);
     public static final ComponentMapper<AnimationBag> animationMapper = getFor(AnimationBag.class);

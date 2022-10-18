@@ -1,12 +1,12 @@
 package dev.mariorez.system;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import dev.mariorez.Sizes;
 import dev.mariorez.component.Flyer;
-import dev.mariorez.component.Player;
+import dev.mariorez.component.Hero;
 
+import static com.badlogic.ashley.core.Family.one;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static dev.mariorez.Tools.renderMapper;
 import static dev.mariorez.Tools.transformMapper;
@@ -16,7 +16,7 @@ public class BoundToWorldSystem extends IteratingSystem {
     private final Sizes sizes;
 
     public BoundToWorldSystem(Sizes sizes) {
-        super(Family.one(Player.class, Flyer.class).get());
+        super(one(Hero.class, Flyer.class).get());
         this.sizes = sizes;
     }
 

@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Polygon;
 import dev.mariorez.component.Flyer;
 import dev.mariorez.component.InvisibleSolid;
 import dev.mariorez.component.Npc;
-import dev.mariorez.component.Player;
+import dev.mariorez.component.Hero;
 import dev.mariorez.component.VisibleSolid;
 
 import static com.badlogic.ashley.core.Family.one;
@@ -26,7 +26,7 @@ public class CollisionSystem extends EntitySystem {
     @Override
     public void addedToEngine(Engine engine) {
         solidEntities = engine.getEntitiesFor(one(VisibleSolid.class, InvisibleSolid.class, Npc.class).get());
-        movingEntities = engine.getEntitiesFor(one(Player.class, Flyer.class).get());
+        movingEntities = engine.getEntitiesFor(one(Hero.class, Flyer.class).get());
     }
 
     @Override
@@ -45,12 +45,12 @@ public class CollisionSystem extends EntitySystem {
     }
 
     private boolean overlaps(
-        Polygon playerBox,
+        Polygon currentBox,
         Polygon otherBox,
         MinimumTranslationVector mtv) {
 
-        if (playerBox.getBoundingRectangle().overlaps(otherBox.getBoundingRectangle())) {
-            return Intersector.overlapConvexPolygons(playerBox, otherBox, mtv);
+        if (currentBox.getBoundingRectangle().overlaps(otherBox.getBoundingRectangle())) {
+            return Intersector.overlapConvexPolygons(currentBox, otherBox, mtv);
         }
 
         return false;

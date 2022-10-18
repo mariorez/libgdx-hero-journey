@@ -48,6 +48,7 @@ public class GameBoot extends Game {
 
         assets.load("map.tmx", TiledMap.class);
         assets.load("hero.png", Texture.class, param);
+        assets.load("sword.png", Texture.class, param);
         assets.load("flyer.png", Texture.class, param);
         assets.load("bush.png", Texture.class, param);
         assets.load("rock.png", Texture.class, param);

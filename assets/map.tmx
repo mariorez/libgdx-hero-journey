@@ -113,7 +113,7 @@
   </object>
   <object id="6" x="640" y="1088" width="32" height="32">
    <properties>
-    <property name="type" value="player"/>
+    <property name="type" value="hero"/>
    </properties>
   </object>
   <object id="23" name="gatekeeper" gid="46" x="464" y="928" width="32" height="32"/>

@@ -15,11 +15,12 @@ import dev.mariorez.BaseScreen;
 import dev.mariorez.Sizes;
 import dev.mariorez.Tools;
 import dev.mariorez.component.Flyer;
+import dev.mariorez.component.Hero;
 import dev.mariorez.component.InvisibleSolid;
 import dev.mariorez.component.Npc;
-import dev.mariorez.component.Player;
 import dev.mariorez.component.Render;
 import dev.mariorez.component.Reward;
+import dev.mariorez.component.Sword;
 import dev.mariorez.component.Transform;
 import dev.mariorez.component.VisibleSolid;
 import dev.mariorez.system.AnimationSystem;
@@ -30,6 +31,7 @@ import dev.mariorez.system.InputSystem;
 import dev.mariorez.system.MovementSystem;
 import dev.mariorez.system.RandomMoveSystem;
 import dev.mariorez.system.RenderSystem;
+import dev.mariorez.system.SwingSwordSystem;
 
 import java.util.Random;
 
@@ -39,14 +41,14 @@ import static dev.mariorez.Tools.ANIMATION_HERO_NORTH;
 import static dev.mariorez.Tools.ANIMATION_HERO_SOUTH;
 import static dev.mariorez.Tools.ANIMATION_HERO_WEST;
 import static dev.mariorez.Tools.generateAnimationBag;
-import static dev.mariorez.Tools.playerMapper;
+import static dev.mariorez.Tools.heroMapper;
 
 public class FirstScreen extends BaseScreen {
 
     private final PooledEngine engine = new PooledEngine();
     private final AssetManager assets;
     private final TiledMap map;
-    private Entity player;
+    private Entity hero;
 
     public FirstScreen(Sizes sizes, AssetManager assets) {
         super(sizes);
@@ -59,16 +61,18 @@ public class FirstScreen extends BaseScreen {
 
         buildControls();
         spawnEntities();
+        spawnSword();
 
         var mapRenderer = new OrthoCachedTiledMapRenderer(map);
         mapRenderer.setBlending(true);
 
         engine.addSystem(new InputSystem());
         engine.addSystem(new MovementSystem());
+        engine.addSystem(new SwingSwordSystem());
         engine.addSystem(new BoundToWorldSystem(sizes));
         engine.addSystem(new RandomMoveSystem());
-        engine.addSystem(new CameraSystem(camera, sizes));
         engine.addSystem(new AnimationSystem());
+        engine.addSystem(new CameraSystem(camera, sizes));
         engine.addSystem(new RenderSystem(batch, camera, mapRenderer));
         engine.addSystem(new CollisionSystem());
     }
@@ -80,19 +84,22 @@ public class FirstScreen extends BaseScreen {
 
     @Override
     public void doAction(Action action) {
-        var playerInput = playerMapper.get(player);
+        var hero = heroMapper.get(this.hero);
         switch (action) {
             case UP:
-                playerInput.up = action.starting;
+                hero.up = action.starting;
                 break;
             case DOWN:
-                playerInput.down = action.starting;
+                hero.down = action.starting;
                 break;
             case LEFT:
-                playerInput.left = action.starting;
+                hero.left = action.starting;
                 break;
             case RIGHT:
-                playerInput.right = action.starting;
+                hero.right = action.starting;
+                break;
+            case SWING_SWORD:
+                hero.swingSword = action.starting;
                 break;
             default:
                 super.doAction(action);
@@ -108,6 +115,7 @@ public class FirstScreen extends BaseScreen {
         actionMap.put(Input.Keys.S, Action.DOWN);
         actionMap.put(Input.Keys.A, Action.LEFT);
         actionMap.put(Input.Keys.D, Action.RIGHT);
+        actionMap.put(Input.Keys.Z, Action.SWING_SWORD);
     }
 
     private void spawnEntities() {
@@ -166,8 +174,8 @@ public class FirstScreen extends BaseScreen {
                 var y = (float) object.getProperties().get("y");
 
                 switch (type) {
-                    case "player":
-                        spawnPlayer(x, y);
+                    case "hero":
+                        spawnHero(x, y);
                         break;
 
                     case "solid":
@@ -218,7 +226,7 @@ public class FirstScreen extends BaseScreen {
         flyerIndex -= 0.1f;
     }
 
-    private void spawnPlayer(float x, float y) {
+    private void spawnHero(float x, float y) {
         var animationBag = generateAnimationBag(
             assets.get("hero.png", Texture.class),
             4,
@@ -235,12 +243,25 @@ public class FirstScreen extends BaseScreen {
 
         var render = engine.createComponent(Render.class);
 
-        player = engine.createEntity()
-            .add(new Player())
+        hero = engine.createEntity()
+            .add(new Hero())
             .add(render)
             .add(transform)
             .add(animationBag);
 
-        engine.addEntity(player);
+        engine.addEntity(hero);
+    }
+
+    private void spawnSword() {
+        var transform = engine.createComponent(Transform.class);
+        transform.zIndex = 1f;
+        var render = engine.createComponent(Render.class);
+        render.sprite = new Sprite(assets.get("sword.png", Texture.class));
+        render.visible = false;
+
+        engine.addEntity(engine.createEntity()
+            .add(new Sword())
+            .add(transform)
+            .add(render));
     }
 }

@@ -24,6 +24,14 @@ public class Transform implements Component, Poolable, Comparable<Transform> {
         velocity.setAngleDeg(angle);
     }
 
+    public float getMotionAngle() {
+        return velocity.angleDeg();
+    }
+
+    public void rotateBy(float degrees) {
+        if (degrees != 0f) rotation = (rotation + degrees) % 360;
+    }
+
     @Override
     public void reset() {
         position.set(0, 0);
