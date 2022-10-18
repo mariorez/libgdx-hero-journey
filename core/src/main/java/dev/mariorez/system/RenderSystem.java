@@ -31,8 +31,6 @@ public class RenderSystem extends SortedIteratingSystem {
 
     @Override
     public void update(float deltaTime) {
-        forceSort();
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         mapRenderer.setView(camera);

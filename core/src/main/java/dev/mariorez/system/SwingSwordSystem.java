@@ -20,8 +20,14 @@ import static dev.mariorez.Tools.transformMapper;
 
 public class SwingSwordSystem extends EntitySystem {
 
+    private final RenderSystem renderSystem;
     private Entity hero;
     private Entity sword;
+    private Vector2 offset = new Vector2();
+
+    public SwingSwordSystem(RenderSystem renderSystem) {
+        this.renderSystem = renderSystem;
+    }
 
     @Override
     public void addedToEngine(Engine engine) {
@@ -45,7 +51,6 @@ public class SwingSwordSystem extends EntitySystem {
 
         var swordTransform = transformMapper.get(sword);
 
-        Vector2 offset = new Vector2();
         switch (heroFacing) {
             case ANIMATION_HERO_EAST:
                 offset.set(0.50f, 0.20f);
@@ -80,6 +85,7 @@ public class SwingSwordSystem extends EntitySystem {
     private void exchange(Transform toFront, Transform toBack) {
         if (toFront.zIndex >= toBack.zIndex) {
             toFront.zIndex = toBack.zIndex - 0.1f;
+            renderSystem.forceSort();
         }
     }
 }

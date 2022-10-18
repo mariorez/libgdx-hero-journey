@@ -66,14 +66,16 @@ public class FirstScreen extends BaseScreen {
         var mapRenderer = new OrthoCachedTiledMapRenderer(map);
         mapRenderer.setBlending(true);
 
+        var renderSystem = new RenderSystem(batch, camera, mapRenderer);
+
         engine.addSystem(new InputSystem());
         engine.addSystem(new MovementSystem());
-        engine.addSystem(new SwingSwordSystem());
+        engine.addSystem(new SwingSwordSystem(renderSystem));
         engine.addSystem(new BoundToWorldSystem(sizes));
         engine.addSystem(new RandomMoveSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new CameraSystem(camera, sizes));
-        engine.addSystem(new RenderSystem(batch, camera, mapRenderer));
+        engine.addSystem(renderSystem);
         engine.addSystem(new CollisionSystem());
     }
 
