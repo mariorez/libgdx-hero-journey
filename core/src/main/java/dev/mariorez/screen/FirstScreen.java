@@ -31,7 +31,7 @@ import dev.mariorez.system.InputSystem;
 import dev.mariorez.system.MovementSystem;
 import dev.mariorez.system.RandomMoveSystem;
 import dev.mariorez.system.RenderSystem;
-import dev.mariorez.system.SwingSwordSystem;
+import dev.mariorez.system.SwordAttackSystem;
 
 import java.util.Random;
 
@@ -56,8 +56,8 @@ public class FirstScreen extends BaseScreen {
         this.assets = assets;
 
         map = assets.get("map.tmx", TiledMap.class);
-        sizes.worldWidth = Tools.getWorldWidth(map);
-        sizes.worldHeight = Tools.getWorldHeight(map);
+        sizes.worldWidth = Tools.getWorldWidthFromMap(map);
+        sizes.worldHeight = Tools.getWorldHeightFromMap(map);
 
         buildControls();
         spawnEntities();
@@ -70,7 +70,7 @@ public class FirstScreen extends BaseScreen {
 
         engine.addSystem(new InputSystem());
         engine.addSystem(new MovementSystem());
-        engine.addSystem(new SwingSwordSystem(renderSystem));
+        engine.addSystem(new SwordAttackSystem(renderSystem));
         engine.addSystem(new BoundToWorldSystem(sizes));
         engine.addSystem(new RandomMoveSystem());
         engine.addSystem(new AnimationSystem());
