@@ -3,8 +3,8 @@ package dev.mariorez.system;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import dev.mariorez.Tools;
 import dev.mariorez.component.Flyer;
+import dev.mariorez.component.Transform;
 
 import java.util.Random;
 
@@ -22,6 +22,6 @@ public class RandomMoveSystem extends IteratingSystem {
 
         var angle = (float) new Random().nextInt(361);
 
-        Tools.transformMapper.get(entity).setMotionAngle(angle);
+        entity.getComponent(Transform.class).setMotionAngle(angle);
     }
 }

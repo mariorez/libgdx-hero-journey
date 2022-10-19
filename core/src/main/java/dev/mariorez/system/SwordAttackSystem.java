@@ -5,7 +5,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Vector2;
+import dev.mariorez.component.AnimationBag;
 import dev.mariorez.component.Hero;
+import dev.mariorez.component.Render;
 import dev.mariorez.component.Sword;
 import dev.mariorez.component.Transform;
 
@@ -13,10 +15,6 @@ import static dev.mariorez.Tools.ANIMATION_HERO_EAST;
 import static dev.mariorez.Tools.ANIMATION_HERO_NORTH;
 import static dev.mariorez.Tools.ANIMATION_HERO_SOUTH;
 import static dev.mariorez.Tools.ANIMATION_HERO_WEST;
-import static dev.mariorez.Tools.animationMapper;
-import static dev.mariorez.Tools.heroMapper;
-import static dev.mariorez.Tools.renderMapper;
-import static dev.mariorez.Tools.transformMapper;
 import static dev.mariorez.component.Sword.Direction.CLOCKWISE;
 import static dev.mariorez.component.Sword.Direction.COUNTERCLOCKWISE;
 
@@ -40,21 +38,22 @@ public class SwordAttackSystem extends EntitySystem {
     @Override
     public void update(float deltaTime) {
 
-        var heroComponent = heroMapper.get(this.hero);
+        var heroComponent = hero.getComponent(Hero.class);
+        var swordRender = sword.getComponent(Render.class);
 
-        if (!heroComponent.swingSword) {
-            renderMapper.get(sword).visible = false;
+        if (!heroComponent.swordAttack) {
+            swordRender.visible = false;
             return;
         }
 
-        var heroSprite = renderMapper.get(hero).sprite;
-        var heroTransform = transformMapper.get(this.hero);
-        var heroFacing = animationMapper.get(this.hero).current;
+        var heroSprite = hero.getComponent(Render.class).sprite;
+        var heroTransform = hero.getComponent(Transform.class);
+        var heroFacing = hero.getComponent(AnimationBag.class).current;
 
         var swordComponent = sword.getComponent(Sword.class);
-        var swordSprite = renderMapper.get(sword).sprite;
-        swordSprite.setOrigin(0, swordSprite.getOriginY());
-        var swordTransform = transformMapper.get(sword);
+
+        swordRender.sprite.setOrigin(0, swordRender.sprite.getOriginY());
+        var swordTransform = sword.getComponent(Transform.class);
         var newRotation = 0f;
 
         switch (heroFacing) {
@@ -111,7 +110,7 @@ public class SwordAttackSystem extends EntitySystem {
             heroTransform.position.y + (offset.y * heroSprite.getHeight())
         );
 
-        renderMapper.get(sword).visible = true;
+        swordRender.visible = true;
     }
 
     private void exchange(Transform toFront, Transform toBack) {

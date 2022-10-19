@@ -5,11 +5,11 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import dev.mariorez.Sizes;
 import dev.mariorez.component.Flyer;
 import dev.mariorez.component.Hero;
+import dev.mariorez.component.Render;
+import dev.mariorez.component.Transform;
 
 import static com.badlogic.ashley.core.Family.one;
 import static com.badlogic.gdx.math.MathUtils.clamp;
-import static dev.mariorez.Tools.renderMapper;
-import static dev.mariorez.Tools.transformMapper;
 
 public class BoundToWorldSystem extends IteratingSystem {
 
@@ -22,8 +22,8 @@ public class BoundToWorldSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        var transform = transformMapper.get(entity);
-        var render = renderMapper.get(entity);
+        var transform = entity.getComponent(Transform.class);
+        var render = entity.getComponent(Render.class);
         transform.position.x = clamp(transform.position.x, 0f, sizes.worldWidth - render.sprite.getWidth());
         transform.position.y = clamp(transform.position.y, 0f, sizes.worldHeight - render.sprite.getHeight());
     }

@@ -8,7 +8,7 @@ public class Hero implements Component {
     public boolean down = false;
     public boolean left = false;
     public boolean right = false;
-    public boolean swingSword = false;
+    public boolean swordAttack = false;
 
     public boolean isMoving() {
         return up || down || left || right;

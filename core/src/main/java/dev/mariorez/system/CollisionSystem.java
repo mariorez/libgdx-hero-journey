@@ -8,14 +8,14 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.math.Polygon;
 import dev.mariorez.component.Flyer;
+import dev.mariorez.component.Hero;
 import dev.mariorez.component.InvisibleSolid;
 import dev.mariorez.component.Npc;
-import dev.mariorez.component.Hero;
+import dev.mariorez.component.Render;
+import dev.mariorez.component.Transform;
 import dev.mariorez.component.VisibleSolid;
 
 import static com.badlogic.ashley.core.Family.one;
-import static dev.mariorez.Tools.renderMapper;
-import static dev.mariorez.Tools.transformMapper;
 
 public class CollisionSystem extends EntitySystem {
 
@@ -32,16 +32,15 @@ public class CollisionSystem extends EntitySystem {
     @Override
     public void update(float deltaTime) {
         for (Entity solid : solidEntities) {
-            var solidBox = renderMapper.get(solid).getPolygon();
+            var solidBox = solid.getComponent(Render.class).getPolygon();
             for (Entity moving : movingEntities) {
-                var movingBox = renderMapper.get(moving).getPolygon(8);
+                var movingBox = moving.getComponent(Render.class).getPolygon(8);
                 if (overlaps(movingBox, solidBox, mtv)) {
-                    transformMapper.get(moving).position.x += mtv.normal.x * mtv.depth;
-                    transformMapper.get(moving).position.y += mtv.normal.y * mtv.depth;
+                    moving.getComponent(Transform.class).position.x += mtv.normal.x * mtv.depth;
+                    moving.getComponent(Transform.class).position.y += mtv.normal.y * mtv.depth;
                 }
             }
         }
-
     }
 
     private boolean overlaps(

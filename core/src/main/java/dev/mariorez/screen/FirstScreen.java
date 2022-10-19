@@ -41,7 +41,6 @@ import static dev.mariorez.Tools.ANIMATION_HERO_NORTH;
 import static dev.mariorez.Tools.ANIMATION_HERO_SOUTH;
 import static dev.mariorez.Tools.ANIMATION_HERO_WEST;
 import static dev.mariorez.Tools.generateAnimationBag;
-import static dev.mariorez.Tools.heroMapper;
 
 public class FirstScreen extends BaseScreen {
 
@@ -86,22 +85,22 @@ public class FirstScreen extends BaseScreen {
 
     @Override
     public void doAction(Action action) {
-        var hero = heroMapper.get(this.hero);
+        var heroComponent = hero.getComponent(Hero.class);
         switch (action) {
             case UP:
-                hero.up = action.starting;
+                heroComponent.up = action.starting;
                 break;
             case DOWN:
-                hero.down = action.starting;
+                heroComponent.down = action.starting;
                 break;
             case LEFT:
-                hero.left = action.starting;
+                heroComponent.left = action.starting;
                 break;
             case RIGHT:
-                hero.right = action.starting;
+                heroComponent.right = action.starting;
                 break;
             case SWING_SWORD:
-                hero.swingSword = action.starting;
+                heroComponent.swordAttack = action.starting;
                 break;
             default:
                 super.doAction(action);

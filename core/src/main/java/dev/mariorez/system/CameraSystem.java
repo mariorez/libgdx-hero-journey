@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import dev.mariorez.Sizes;
 import dev.mariorez.component.Hero;
+import dev.mariorez.component.Transform;
 
 import static com.badlogic.ashley.core.Family.all;
-import static dev.mariorez.Tools.transformMapper;
 
 public class CameraSystem extends IteratingSystem {
 
@@ -29,7 +29,7 @@ public class CameraSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        var heroPosition = transformMapper.get(entity).position;
+        var heroPosition = entity.getComponent(Transform.class).position;
         camera.position.x = MathUtils.clamp(heroPosition.x, minWidth, maxWidth);
         camera.position.y = MathUtils.clamp(heroPosition.y, minHeight, maxHeight);
         camera.update();

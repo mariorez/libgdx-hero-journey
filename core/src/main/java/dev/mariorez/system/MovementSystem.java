@@ -5,9 +5,9 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import dev.mariorez.component.Flyer;
 import dev.mariorez.component.Hero;
+import dev.mariorez.component.Transform;
 
 import static com.badlogic.ashley.core.Family.one;
-import static dev.mariorez.Tools.transformMapper;
 
 public class MovementSystem extends IteratingSystem {
 
@@ -18,7 +18,7 @@ public class MovementSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
 
-        var transform = transformMapper.get(entity);
+        var transform = entity.getComponent(Transform.class);
 
         // apply acceleration
         transform.velocity.add(

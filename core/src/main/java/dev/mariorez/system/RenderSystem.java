@@ -13,8 +13,6 @@ import dev.mariorez.component.Render;
 import dev.mariorez.component.Transform;
 
 import static com.badlogic.ashley.core.Family.all;
-import static dev.mariorez.Tools.renderMapper;
-import static dev.mariorez.Tools.transformMapper;
 
 public class RenderSystem extends SortedIteratingSystem {
 
@@ -45,11 +43,11 @@ public class RenderSystem extends SortedIteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
 
-        var render = renderMapper.get(entity);
+        var render = entity.getComponent(Render.class);
         if (!render.visible) return;
 
         var sprite = render.sprite;
-        var transform = transformMapper.get(entity);
+        var transform = entity.getComponent(Transform.class);
 
         sprite.setRotation(transform.rotation);
         sprite.setBounds(

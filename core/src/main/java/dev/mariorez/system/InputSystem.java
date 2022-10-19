@@ -3,16 +3,15 @@ package dev.mariorez.system;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
+import dev.mariorez.component.AnimationBag;
 import dev.mariorez.component.Hero;
+import dev.mariorez.component.Transform;
 
 import static com.badlogic.ashley.core.Family.all;
 import static dev.mariorez.Tools.ANIMATION_HERO_EAST;
 import static dev.mariorez.Tools.ANIMATION_HERO_NORTH;
 import static dev.mariorez.Tools.ANIMATION_HERO_SOUTH;
 import static dev.mariorez.Tools.ANIMATION_HERO_WEST;
-import static dev.mariorez.Tools.animationMapper;
-import static dev.mariorez.Tools.heroMapper;
-import static dev.mariorez.Tools.transformMapper;
 
 public class InputSystem extends IteratingSystem {
 
@@ -25,8 +24,8 @@ public class InputSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        var hero = heroMapper.get(entity);
-        var animation = animationMapper.get(entity);
+        var hero = entity.getComponent(Hero.class);
+        var animation = entity.getComponent(AnimationBag.class);
         var animate = animation.animations.get(animation.current);
 
         if (hero.isStopped()) {
@@ -36,7 +35,7 @@ public class InputSystem extends IteratingSystem {
 
         animate.loop = true;
 
-        var transform = transformMapper.get(entity);
+        var transform = entity.getComponent(Transform.class);
 
         var speed = speedUp.set(transform.acceleration, 0f);
 
